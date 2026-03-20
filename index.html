@@ -685,8 +685,16 @@ If asked something not covered above, say you do not have that detail but encour
             messages: chatHistory.concat([{ role: 'user', content: text }])
           })
         });
+        if (!res.ok) {
+          throw new Error('API returned status ' + res.status);
+        }
         const data = await res.json();
-        const reply = data.content && data.content[0] ? data.content[0].text : 'Sorry, something went wrong. Please try again.';
+        let reply = 'Sorry, I could not generate a response. Please try again.';
+        if (data && data.content && Array.isArray(data.content) && data.content.length > 0) {
+          reply = data.content[0].text;
+        } else if (data && data.error) {
+          reply = 'Sorry, something went wrong: ' + data.error;
+        }
         hideTyping();
         appendMsg('bot', reply);
         chatHistory.push({ role: 'user', content: text });
@@ -702,6 +710,10 @@ If asked something not covered above, say you do not have that detail but encour
     window.sendSuggestion = function(btn) {
       inputEl.value = btn.textContent;
       window.sendMessage();
+    };
+  </script>
+</body>
+</html>
     };
   </script>
 </body>
