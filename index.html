@@ -660,14 +660,18 @@
 
     // ── AUTO POPUP GREETING ──
     window.addEventListener('load', function() {
-      setTimeout(function() {
-        const popup = document.getElementById('chatPopup');
-        popup.classList.add('visible');
-        setTimeout(function() {
-          popup.classList.remove('visible');
-        }, 6000);
-      }, 1500);
-    });
+  // Open chat widget on page load
+  document.getElementById('chatFab').classList.add('open');
+  document.getElementById('chatWidget').classList.add('open');
+  // Show popup after 1.5 seconds
+  setTimeout(function() {
+    const popup = document.getElementById('chatPopup');
+    popup.classList.add('visible');
+    setTimeout(function() {
+      popup.classList.remove('visible');
+    }, 6000);
+  }, 1500);
+});
 
     // ── FLOATING CHAT TOGGLE ──
     window.toggleChat = function() {
